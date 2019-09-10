@@ -1,0 +1,130 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Tictactoe : MonoBehaviour
+{
+    enum Roles { X, O };
+
+    private int[] gameBoard = {0,0,0,
+                       0,0,0,
+                       0,0,0};
+
+
+    public void Changetext(Text butText)
+    {
+        string name = butText.name;
+        int gridNum = Int32.Parse(name);
+        if (butText.text == "")
+        {
+            TurnCounter turn = FindObjectOfType<TurnCounter>();
+            if (turn.getTurn() == (int)Roles.X)
+            {
+                butText.text = "X";
+                gameBoard[gridNum] = 1;
+                turn.ChangeTurn();
+            }
+            else if (turn.getTurn() == (int)Roles.O)
+            {
+                butText.text = "O";
+                gameBoard[gridNum] = 5;
+                turn.ChangeTurn();
+            }
+            CheckForGameEnd();
+        }
+        else { return; }
+    }
+
+    public void CheckForGameEnd()
+    {
+        Text WinnerText = GameObject.Find("WinnerText").GetComponent<Text>();
+        Button resetButton = GameObject.Find("Reset").GetComponent<Button>();
+        
+        int topRow = gameBoard[0] + gameBoard[1] + gameBoard[2];
+        int midRow = gameBoard[3] + gameBoard[4] + gameBoard[5];
+        int bottomRow = gameBoard[6] + gameBoard[7] + gameBoard[8];
+        int leftCol = gameBoard[0] + gameBoard[3] + gameBoard[6];
+        int midCol = gameBoard[1] + gameBoard[4] + gameBoard[7];
+        int rightCol = gameBoard[2] + gameBoard[5] + gameBoard[8];
+        int leftDiag = gameBoard[0] + gameBoard[4] + gameBoard[8];
+        int rightDiag = gameBoard[2] + gameBoard[4] + gameBoard[6];
+
+        int total = 0;
+        for(int i=0; i < gameBoard.Length; i++)
+        {
+            total += gameBoard[i];
+        }
+        
+
+        if(topRow == 3 || midRow == 3 || bottomRow == 3 || leftCol == 3 || midCol == 3 || rightCol == 3 || leftDiag == 3 || rightDiag == 3)
+        {
+            WinnerText.text = "WINNER IS X! Clear Grid to play again.";
+            resetButton.interactable = true;
+            DisableGridButons();
+            ClearForNewGame();
+        }
+        else if(topRow == 15 || midRow == 15 || bottomRow == 15 || leftCol == 15 || midCol == 15 || rightCol == 15 || leftDiag == 15 || rightDiag == 15)
+        {
+            WinnerText.text = "WINNER IS O! Clear Grid to play again.";
+            resetButton.interactable = true;
+            DisableGridButons();
+            ClearForNewGame();
+        }
+        else if(total > 24)
+        {
+            WinnerText.text = "It's a DRAW. Clear Grid to play again.";
+            resetButton.interactable = true;
+            DisableGridButons();         
+            ClearForNewGame();
+        }
+        topRow = 0;
+        midRow = 0;
+        bottomRow = 0;
+        leftCol = 0;
+        midCol = 0;
+        rightCol = 0;
+        leftDiag = 0;
+        rightDiag = 0;
+        
+    }
+
+    public void DisableGridButons()
+    {
+        Button grid0 = GameObject.Find("Button0").GetComponent<Button>();
+        Button grid1 = GameObject.Find("Button1").GetComponent<Button>();
+        Button grid2 = GameObject.Find("Button2").GetComponent<Button>();
+        Button grid3 = GameObject.Find("Button3").GetComponent<Button>();
+        Button grid4 = GameObject.Find("Button4").GetComponent<Button>();
+        Button grid5 = GameObject.Find("Button5").GetComponent<Button>();
+        Button grid6 = GameObject.Find("Button6").GetComponent<Button>();
+        Button grid7 = GameObject.Find("Button7").GetComponent<Button>();
+        Button grid8 = GameObject.Find("Button8").GetComponent<Button>();
+
+        grid0.interactable = false;
+        grid1.interactable = false;
+        grid2.interactable = false;
+        grid3.interactable = false;
+        grid4.interactable = false;
+        grid5.interactable = false;
+        grid6.interactable = false;
+        grid7.interactable = false;
+        grid8.interactable = false;
+    }
+
+    public void ClearForNewGame()
+    {        
+        int[] arr = gameBoard;
+        for (int i=0; i < arr.Length; i++)
+        {
+            arr[i] = 0;
+        }
+    }
+
+    //public void addScore(int val)
+    //{
+    //    score = score + val;
+    //    scoreText.text = score.ToString();
+    //}
+}
