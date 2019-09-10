@@ -1,0 +1,39 @@
+//player.cs
+using System.Collections.Generic;
+using UnityEngine;
+public class Player
+{
+    enum Roles{X, O};
+    [SerializeField]
+    string Role;
+    [SerializeField]
+    string Symbol;
+
+    public Player(int value)
+    {
+        if(value == (int)Roles.X)
+        {
+            Role = "X";
+            Symbol = "X";
+        }
+        else if(value == (int)Roles.O)
+        {
+            Role = "O";
+            Symbol = "O";
+        }
+        else
+        {
+            Debug.LogError("The role: " + value + " is an invalide role when creating a player.");
+        }
+    }
+
+    public string getRole()
+    {
+        return Role;
+    }
+
+    public string getSymbol()
+    {
+        return Symbol;
+    }
+}
