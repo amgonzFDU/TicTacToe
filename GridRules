@@ -1,0 +1,87 @@
+//gridRules.cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GridRules : MonoBehaviour
+{
+    enum Roles { X, O };
+    Player Player1;
+    Player Player2;
+    [SerializeField]
+    Text Player1Text;
+    [SerializeField]
+    Text Player2Text;
+
+    int CurrentTurn;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Button resetButton = GameObject.Find("Reset").GetComponent<Button>();
+        resetButton.interactable = false;
+        CreatePlayers();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void CreatePlayers()
+    {
+        int choice1 = Random.Range(0, 2);
+        Player1 = new Player(choice1);
+        Player2 = new Player(1 - choice1);
+        UpdatePlayerText();        
+    }
+
+    public void UpdatePlayerText()
+    {
+        Player1Text.text = "Player1: " + Player1.getSymbol();
+        Player2Text.text = "Player2: " + Player2.getSymbol();
+    }
+
+    public Text[] getGrid()
+    {
+        return gameObject.GetComponentsInChildren<Text>();
+    }
+
+    public void ClearGrid()
+    {
+        Text[] grid = getGrid();
+        Text WinnerText = GameObject.Find("WinnerText").GetComponent<Text>();
+        WinnerText.text = "Winner is...";
+        foreach (Text butText in grid)
+        {
+            butText.text = "";
+        }
+        EnableGridButtons();
+    }
+
+    public void EnableGridButtons()
+    {
+        Button resetButton = GameObject.Find("Reset").GetComponent<Button>();        
+        Button grid0 = GameObject.Find("Button0").GetComponent<Button>();
+        Button grid1 = GameObject.Find("Button1").GetComponent<Button>();
+        Button grid2 = GameObject.Find("Button2").GetComponent<Button>();
+        Button grid3 = GameObject.Find("Button3").GetComponent<Button>();
+        Button grid4 = GameObject.Find("Button4").GetComponent<Button>();
+        Button grid5 = GameObject.Find("Button5").GetComponent<Button>();
+        Button grid6 = GameObject.Find("Button6").GetComponent<Button>();
+        Button grid7 = GameObject.Find("Button7").GetComponent<Button>();
+        Button grid8 = GameObject.Find("Button8").GetComponent<Button>();
+
+        resetButton.interactable = false;
+        grid0.interactable = true;
+        grid1.interactable = true;
+        grid2.interactable = true;
+        grid3.interactable = true;
+        grid4.interactable = true;
+        grid5.interactable = true;
+        grid6.interactable = true;
+        grid7.interactable = true;
+        grid8.interactable = true;
+    }
+}
