@@ -1,0 +1,58 @@
+//TurnCounter.cs
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TurnCounter : MonoBehaviour
+{
+    enum Roles { X, O };
+    int CurrentTurn;
+
+    [SerializeField]
+    Text TurnText;
+    void Start()
+    {
+        RandomFirtTurn();
+    }
+
+    public void RandomFirtTurn()
+    {
+        CurrentTurn = Random.Range(0, 2);
+        if (CurrentTurn.Equals((int)Roles.X))
+        {
+            TurnText.text = "Turn: X";
+        }
+        else if (CurrentTurn.Equals((int)Roles.O))
+        {
+            TurnText.text = "Turn: O";
+        }
+        else
+        {
+            Debug.LogError("The role value: " + CurrentTurn + " is not role.");
+        }
+    }
+
+    public void ChangeTurn()
+    {
+        if (CurrentTurn.Equals((int)Roles.X))
+        {
+            CurrentTurn = (int)Roles.O;
+            TurnText.text = "Turn: O";
+        }
+        else if (CurrentTurn.Equals((int)Roles.O))
+        {
+            CurrentTurn = (int)Roles.X;
+            TurnText.text = "Turn: X";
+        }
+        else
+        {
+            Debug.LogError("The role value: " + CurrentTurn + " is not role.");
+        }
+    }
+
+    public int getTurn()
+    {
+        return CurrentTurn;
+    }
+}
